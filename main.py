@@ -6,6 +6,7 @@ Calculates the volume of certain objects
 
 from fractions import Fraction
 
+
 class repeat_question():
     def ask_for(self, prompt, error_msg=None, _type=None):
         """ While the desired prompt is not given, it repeats the prompt. """
@@ -46,11 +47,16 @@ class volume():
         # * Inputs to determine the area of a base.
         base_l = self.base_length = ask.ask_for(
             'What is the base length?: ', 'Not a base length', float)
+
         base_h = self.base_height = ask.ask_for(
             'What is the base height?: ', 'Not a base height', float)
+
         self.height = ask.ask_for(
-                'What is the height?: ', 'Not a height', float)
+            'What is the height?: ', 'Not a height', float)
         print('----------------------------')
+
+        is_tri = ask.ask_for(
+            'Is the object a triangular pyramid? (Y/N): ', 'Not an answer.', str)
 
         # * Area of a base
         base_area = base_l*base_h
@@ -58,9 +64,20 @@ class volume():
             frac = ask.ask_for(
                 'Please input the fraction you are using: ', 'Not a decimal')
             print('----------------------------')
-            f = Fraction(frac)
-            volume_calculation = f*base_area*self.height
-            return volume_calculation
+
+            # * Asks if the object is a triangle or is not a triangle.
+
+            if is_tri[0] == 'y':
+                f = Fraction(frac)
+                volume_calculation = f*0.5*base_area*self.height
+                return volume_calculation
+
+            # * If it is not a triangle, this code executes.
+            else:
+
+                f = Fraction(frac)
+                volume_calculation = f*base_area*self.height
+                return volume_calculation
 
         if using_frac[0] == 'n':
             volume_calculation = base_area*self.height
@@ -85,7 +102,12 @@ class calc():
         volume = v.vol()
 
         return print(f'\nThe volume is {volume}.')
+
     def vol_tri_prism(self):
+        volume = v.vol()
+        return print(f'\nThe volume is {volume}.')
+
+    def vol_pyramid(self):
         volume = v.vol()
         return print(f'\nThe volume is {volume}.')
 
