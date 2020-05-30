@@ -39,7 +39,14 @@ class volume():
         self.base_height = base_height
 
     def vol(self):
+        """This is the main method responsible for calculating the volume of the supported objects.
+
+        Returns:
+            Float/Int -- Using the parameters the user provides, it calculates the volume.
+        """
+
         print('\n----------------------------')
+
         # * Asks the user if they are using a fraction or not.
         using_frac = ask.ask_for(
             'Are you using a fraction? (Y/N): ', 'Not an answer.', str)
@@ -51,18 +58,24 @@ class volume():
         base_h = self.base_height = ask.ask_for(
             'What is the base height?: ', 'Not a base height', float)
 
+        # * Inputs to determine the height of the object.
         self.height = ask.ask_for(
             'What is the height?: ', 'Not a height', float)
+
         print('----------------------------')
 
+        # * Asks the user if the object is or is not a triangular pyramid.
         is_tri = ask.ask_for(
             'Is the object a triangular pyramid? (Y/N): ', 'Not an answer.', str)
 
         # * Area of a base
         base_area = base_l*base_h
+
+        # * Asks the user if they are using a fraction, then if they are, uses the fraction module to convert the input to a fraction.
         if using_frac[0] == 'y':
             frac = ask.ask_for(
-                'Please input the fraction you are using: ', 'Not a decimal')
+                'Please input the fraction you are using: ', 'Not a fraction', Fraction)
+
             print('----------------------------')
 
             # * Asks if the object is a triangle or is not a triangle.
@@ -74,7 +87,6 @@ class volume():
 
             # * If it is not a triangle, this code executes.
             else:
-
                 f = Fraction(frac)
                 volume_calculation = f*base_area*self.height
                 return volume_calculation
@@ -88,9 +100,7 @@ v = volume()
 
 
 class calc():
-    """
-    This class is responsible for the calculations of volume
-    """
+
 
     def __init__(self, base_length=0, base_height=0, height=0):
         self.base_length = base_length
