@@ -26,7 +26,6 @@ class repeat_question():
                     continue
             return inp
 
-
 ask = repeat_question()
 
 
