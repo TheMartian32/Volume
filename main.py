@@ -26,6 +26,7 @@ class repeat_question():
                     continue
             return inp
 
+
 ask = repeat_question()
 
 
@@ -78,7 +79,7 @@ class volume():
             'What is the base height?: ', 'Not a base height', float)
 
         # * Inputs to determine the height of the object.
-        self.height = ask.ask_for(
+        h = self.height = ask.ask_for(
             'What is the height?: ', 'Not a height', float)
 
         print('----------------------------')
@@ -99,22 +100,22 @@ class volume():
                 # using the fraction module, if the user is using a fraction, in which case they have too, it passes the input into a Fraction method.
                 f = Fraction(frac)
                 # * Formula for triangular pyramid
-                volume_calculation = f*0.5*base_area*self.height
+                volume_calculation = f*0.5*base_area*h
 
-                return print(f'\nThe volume is {volume_calculation} units cubed.')
+                return print(f'The volume is {volume_calculation} units cubed.')
 
             # * If it is not a triangle, this code executes.
             else:
                 f = Fraction(frac)
                 # * Formula for objects that still require a fractional component.
-                volume_calculation = f*base_area*self.height
+                volume_calculation = f*base_area*h
 
                 return print(f'\nThe volume is {volume_calculation} units cubed.')
 
         if using_frac[0] == 'n':
 
             # * Formula for something like a rectangular prism.
-            volume_calculation = base_area*self.height
+            volume_calculation = base_area*h
 
             return print(f'\nThe volume is {volume_calculation} units cubed.')
 
