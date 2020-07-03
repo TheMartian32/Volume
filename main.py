@@ -4,6 +4,17 @@ Calculates the volume of certain objects
 ========================================
 """
 from fractions import Fraction
+from rich.console import Console
+from rich.theme import Theme
+from rich import print
+
+custom_theme = Theme({
+    "good": "green",
+    "bad": "bold red"
+})
+
+console = Console(theme=custom_theme)
+
 
 class repeat_question():
     def ask_for(self, prompt, error_msg=None, _type=None):
@@ -24,7 +35,17 @@ class repeat_question():
                     continue
             return inp
 
+    def good_bad(self, string1='', string2='', string3='', color1='green', color2='red', divider='', has_input=False, input_msg='', _type=None, error_msg=None):
+        msg1 = print(f'{string1}')
+        msg2 = print(
+            f'[{color1}]{string2}[/{color1}]{divider}[{color2}]{string3}[/{color2}]:')
+        if has_input == True:
+            inp = ask.ask_for(f'{input_msg}')
+        return msg1, msg2
+
+
 ask = repeat_question()
+
 
 class volume():
     """
@@ -65,23 +86,23 @@ class volume():
         print('\n----------------------------')
 
         # * Asks the user if they are using a fraction or not.
-        using_frac = ask.ask_for(
-            'Are you using a fraction? (Y/N): ', 'Not an answer.', str)
+        using_frac = ask.good_bad(string1='Are you using a fraction?',
+                                  string2='Y', string3='N', divider='/', has_input=True, _type=str, error_msg='Not an answer')
 
         # * Asks the user if the object is or is not a triangular pyramid.
         is_tri = ask.ask_for(
-            'Is the object a triangular pyramid? (Y/N): ', 'Not an answer.', str)
+            '\nIs the object a triangular pyramid? (Y/N): ', 'Not an answer.', str)
 
         # * Inputs to determine the area of a base.
         base_l = self.base_length = ask.ask_for(
-            'Base length: ', 'Not a base length', float)
+            '\nBase length: ', 'Not a base length', float)
 
         base_h = self.base_height = ask.ask_for(
-            'Base height: ', 'Not a base height', float)
+            '\nBase height: ', 'Not a base height', float)
 
         # * Inputs to determine the height of the object.
         h = self.height = ask.ask_for(
-            'Height: ', 'Not a height', float)
+            '\nHeight: ', 'Not a height', float)
 
         print('----------------------------')
 
@@ -91,7 +112,7 @@ class volume():
         # * Asks the user if they are using a fraction, then if they are, uses the fraction module to convert the input to a fraction.
         if using_frac[0] == 'y':
             frac = ask.ask_for(
-                'Please input the fraction you are using: ', 'Not a fraction', Fraction)
+                '\nPlease input the fraction you are using: ', 'Not a fraction', Fraction)
 
             print('----------------------------')
 
@@ -117,10 +138,15 @@ class volume():
 
             # * Formula for something like a rectangular prism.
             volume_calculation = base_area*h
+            msg = console.print(
+                f"\nThe volume is {volume_calculation} units cubed.")
 
-            return print(f'\nThe volume is {volume_calculation} units cubed.')
+            return msg
+
 
 v = volume()
+
+
 class ResultsInputs():
     """
     Uses user given inputs to generate results
@@ -133,14 +159,17 @@ class ResultsInputs():
         """
 
         while True:
+            print(
+                'Type [bold cyan]v[/bold cyan] [bold]or[/bold] [bold cyan]V[/bold cyan]:')
             result = ask.ask_for(
-                '\nType v or V: ', 'Not supported.', str)
+                '', 'Not supported.', str)
 
-            if result in ['v', 'volume', 'vol']:
+            if result in ['v', 'volume', 'vol', 'V']:
                 v.vol()
                 break
             else:
                 break
+
 
 ri = ResultsInputs()
 
@@ -151,8 +180,12 @@ if __name__ == "__main__":
     while True:
 
         # * Asks to repeat the script.
-        repeat = input(
-            '\nWould you like to repeat the program? (Y/N): ').lower()
+        print(
+            '\nWould you like to [bold green]repeat[/bold green] the program?')
+        print('[green]Y[/green]/[red]N[/red]:')
+
+        repeat = ask.ask_for('', 'not an answer', str)
+
         if repeat[0] == 'y'.lower():
             ri.calc_type()
             continue
