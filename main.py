@@ -35,10 +35,10 @@ class repeat_question():
                     continue
             return inp
 
-    def good_bad(self, string1='', string2='', string3='', color1='green', color2='red', divider='', has_input=False, input_msg='', _type=None, error_msg=None):
+    def colored_input(self, string1='', string2='', string3='', color1='green', color2='red', divider='', has_input=False, input_msg='', _type=None, error_msg=None):
         msg1 = print(f'{string1}')
         msg2 = print(
-            f'[{color1}]{string2}[/{color1}]{divider}[{color2}]{string3}[/{color2}]:')
+            f'[{color1}]{string2}[/{color1}]{divider}[{color2}]{string3}[/{color2}]')
         if has_input == True:
             inp = ask.ask_for(f'{input_msg}')
         return msg1, msg2
@@ -86,12 +86,14 @@ class volume():
         print('\n----------------------------')
 
         # * Asks the user if they are using a fraction or not.
-        using_frac = ask.good_bad(string1='Are you using a fraction?',
-                                  string2='Y', string3='N', divider='/', has_input=True, _type=str, error_msg='Not an answer')
+        frac_question = ask.colored_input(
+            string1='\nAre you using a fraction?', string2='Y', string3='N', divider='/')
+        using_frac = ask.ask_for(':', 'Not an answer', str)
 
         # * Asks the user if the object is or is not a triangular pyramid.
-        is_tri = ask.ask_for(
-            '\nIs the object a triangular pyramid? (Y/N): ', 'Not an answer.', str)
+        tri_question = ask.colored_input(string1='\nIs the object a triangular pyramid?', string2='Y',
+                                         string3='N', divider='/')
+        is_tri = ask.ask_for(':', 'Not an answer', str)
 
         # * Inputs to determine the area of a base.
         base_l = self.base_length = ask.ask_for(
@@ -111,8 +113,9 @@ class volume():
 
         # * Asks the user if they are using a fraction, then if they are, uses the fraction module to convert the input to a fraction.
         if using_frac[0] == 'y':
-            frac = ask.ask_for(
-                '\nPlease input the fraction you are using: ', 'Not a fraction', Fraction)
+            frac_question = ask.colored_input(
+                string1='Please input the fraction you are using (Here is an example) ', string2='1', string3='3', divider='/')
+            is_frac = ask.ask_for(':', 'Not an answer', str)
 
             print('----------------------------')
 
@@ -120,7 +123,7 @@ class volume():
 
             if is_tri[0] == 'y':
                 # using the fraction module, if the user is using a fraction, in which case they have too, it passes the input into a Fraction method.
-                f = Fraction(frac)
+                f = Fraction(is_frac)
                 # * Formula for triangular pyramid
                 volume_calculation = f*0.5*base_area*h
 
@@ -128,7 +131,7 @@ class volume():
 
             # * If it is not a triangle, this code executes.
             else:
-                f = Fraction(frac)
+                f = Fraction(is_frac)
                 # * Formula for objects that still require a fractional component.
                 volume_calculation = f*base_area*h
 
@@ -138,10 +141,8 @@ class volume():
 
             # * Formula for something like a rectangular prism.
             volume_calculation = base_area*h
-            msg = console.print(
-                f"\nThe volume is {volume_calculation} units cubed.")
 
-            return msg
+            return print(f"\nThe volume is {volume_calculation} units cubed.")
 
 
 v = volume()
@@ -162,7 +163,7 @@ class ResultsInputs():
             print(
                 'Type [bold cyan]v[/bold cyan] [bold]or[/bold] [bold cyan]V[/bold cyan]:')
             result = ask.ask_for(
-                '', 'Not supported.', str)
+                ':', 'Not supported.', str)
 
             if result in ['v', 'volume', 'vol', 'V']:
                 v.vol()
@@ -184,7 +185,7 @@ if __name__ == "__main__":
             '\nWould you like to [bold green]repeat[/bold green] the program?')
         print('[green]Y[/green]/[red]N[/red]:')
 
-        repeat = ask.ask_for('', 'not an answer', str)
+        repeat = ask.ask_for(':', 'not an answer', str)
 
         if repeat[0] == 'y'.lower():
             ri.calc_type()
