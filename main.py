@@ -8,6 +8,7 @@ from rich.console import Console
 from rich.theme import Theme
 from rich import print
 
+#* Custom theme for rich
 custom_theme = Theme({
     "good": "green",
     "bad": "bold red"
@@ -16,7 +17,7 @@ custom_theme = Theme({
 console = Console(theme=custom_theme)
 
 
-class repeat_question():
+class UI_Inputs():
     def ask_for(self, prompt, error_msg=None, _type=None):
         """ While the desired prompt is not given, it repeats the prompt. """
         while True:
@@ -36,18 +37,60 @@ class repeat_question():
             return inp
 
     def colored_input(self, string1='', string2='', string3='', color1='green', color2='red', divider='', has_input=False, input_msg='', _type=None, error_msg=None):
+        """
+        prints out a colored and formatted print statement using the rich python library
+        and can use input but it currently doesnt work.
+
+        Args:
+            string1 (str, optional): What you want the user to see, e.g the print statement. Defaults to ''.
+            string2 (str, optional): the first part of the text to be colored. Defaults to ''.
+            string3 (str, optional): the second part of the text to be colored. Defaults to ''.
+            color1 (str, optional): first color. Defaults to 'green'.
+            color2 (str, optional): second color. Defaults to 'red'.
+            divider (str, optional): something to divide the colors. Defaults to ''.
+            has_input (bool, optional): If you want input set to True. Defaults to False.
+            input_msg (str, optional): input messsage, best left to empty string. Defaults to ''.
+            _type ([type], optional): type you want to check for in input. Defaults to None.
+            error_msg ([type], optional): error message if the type is not correct. Defaults to None.
+
+        Returns:
+            [type]: [description]
+        """
+        # * message for the user to see
         msg1 = print(f'{string1}')
+
+        # * the colored part of the text
         msg2 = print(
             f'[{color1}]{string2}[/{color1}]{divider}[{color2}]{string3}[/{color2}]')
+
+        # * Checks if the input is True
         if has_input == True:
             inp = ask.ask_for(f'{input_msg}')
         return msg1, msg2
 
+    def calc_type(self):
+        """
+        While the user does not give v, volume, or vol,
+        the prompt repeats.
+        """
 
-ask = repeat_question()
+        while True:
+            print(
+                'Type [bold cyan]v[/bold cyan] [bold]or[/bold] [bold cyan]V[/bold cyan]:')
+            result = ask.ask_for(
+                ':', 'Not supported.', str)
+
+            if result in ['v', 'volume', 'vol', 'V']:
+                v.vol()
+                break
+            else:
+                break
 
 
-class volume():
+ask = UI_Inputs()
+
+
+class Volume():
     """
     Calculates the volume of a given object.
 
@@ -145,37 +188,10 @@ class volume():
             return print(f"\nThe volume is {volume_calculation} units cubed.")
 
 
-v = volume()
-
-
-class ResultsInputs():
-    """
-    Uses user given inputs to generate results
-    """
-
-    def calc_type(self):
-        """
-        While the user does not give v, volume, or vol,
-        the prompt repeats.
-        """
-
-        while True:
-            print(
-                'Type [bold cyan]v[/bold cyan] [bold]or[/bold] [bold cyan]V[/bold cyan]:')
-            result = ask.ask_for(
-                ':', 'Not supported.', str)
-
-            if result in ['v', 'volume', 'vol', 'V']:
-                v.vol()
-                break
-            else:
-                break
-
-
-ri = ResultsInputs()
+v = Volume()
 
 if __name__ == "__main__":
-    ri.calc_type()
+    ask.calc_type()
 
     repeat = ''
     while True:
@@ -188,7 +204,7 @@ if __name__ == "__main__":
         repeat = ask.ask_for(':', 'not an answer', str)
 
         if repeat[0] == 'y'.lower():
-            ri.calc_type()
+            ask.calc_type()
             continue
         if repeat[0] == 'n'.lower():
             break
