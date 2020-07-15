@@ -8,7 +8,7 @@ from rich.console import Console
 from rich.theme import Theme
 from rich import print
 
-#* Custom theme for rich
+# * Custom theme for rich
 custom_theme = Theme({
     "good": "green",
     "bad": "bold red"
@@ -18,6 +18,12 @@ console = Console(theme=custom_theme)
 
 
 class UI_Inputs():
+
+    """
+    A class responsible for the inputs in the UI and basically anything that requires
+    either the UI or inputs.
+    """
+
     def ask_for(self, prompt, error_msg=None, _type=None):
         """ While the desired prompt is not given, it repeats the prompt. """
         while True:
@@ -39,7 +45,7 @@ class UI_Inputs():
     def colored_input(self, string1='', string2='', string3='', color1='green', color2='red', divider='', has_input=False, input_msg='', _type=None, error_msg=None):
         """
         prints out a colored and formatted print statement using the rich python library
-        and can use input but it currently doesnt work.
+        and can use input but it currently doesn't work.
 
         Args:
             string1 (str, optional): What you want the user to see, e.g the print statement. Defaults to ''.
